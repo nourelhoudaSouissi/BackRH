@@ -1,19 +1,14 @@
-package com.csidigital.rh.dao.entity;
+package com.csidigital.rh.shared.dto.response;
 
-
-import com.csidigital.rh.shared.enumeration.TimeOffType;
 import jakarta.persistence.*;
-import lombok.*;
+
+import lombok.Data;
 
 import java.time.DayOfWeek;
-import java.util.List;
+import java.time.LocalDate;
 
-
-@Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Weekend {
+public class WeekendUpdatedResponse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
@@ -28,6 +23,7 @@ public class Weekend {
     @Column(name = "endDay")
     private DayOfWeek endDay;
 
-
+    private LocalDate activationStartDate;
+    private LocalDate activationEndDate;
 
 }

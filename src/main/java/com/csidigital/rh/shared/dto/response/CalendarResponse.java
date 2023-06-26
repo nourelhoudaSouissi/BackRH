@@ -1,6 +1,7 @@
 package com.csidigital.rh.shared.dto.response;
 
 import com.csidigital.rh.dao.entity.Holiday;
+import com.csidigital.rh.dao.entity.WeekendUpdated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,5 +19,6 @@ public class CalendarResponse {
     private String name;
     private String description;
     private List<Holiday> holidays;
+    private List<WeekendUpdated> weekendUpdateds  ;
 
 }

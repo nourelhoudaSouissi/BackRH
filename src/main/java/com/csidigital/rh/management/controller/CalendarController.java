@@ -1,5 +1,7 @@
 package com.csidigital.rh.management.controller;
 
+import com.csidigital.rh.dao.entity.Holiday;
+import com.csidigital.rh.dao.entity.WeekendUpdated;
 import com.csidigital.rh.management.service.impl.CalendarImpl;
 import com.csidigital.rh.management.service.impl.HolidayImpl;
 import com.csidigital.rh.shared.dto.request.CalendarRequest;
@@ -49,4 +51,13 @@ public class CalendarController {
     public Long countEquipment() {
         return calendarImpl.countCalendars();
     }
+    @GetMapping("/{id}/getCalendarWeekends")
+    public List<WeekendUpdated> getCalendarWeekends(@PathVariable Long id) {
+        return calendarImpl.getCalendarWeekends(id);
+    }
+    @GetMapping("/{id}/getCalendarHolidays")
+    public List<Holiday> getCalendarHolidays(@PathVariable Long id) {
+        return calendarImpl.getCalendarHolidays(id);
+    }
 }
+

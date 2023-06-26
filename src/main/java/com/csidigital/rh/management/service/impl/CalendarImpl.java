@@ -2,8 +2,10 @@ package com.csidigital.rh.management.service.impl;
 
 import com.csidigital.rh.dao.entity.Calendar;
 import com.csidigital.rh.dao.entity.Holiday;
+import com.csidigital.rh.dao.entity.WeekendUpdated;
 import com.csidigital.rh.dao.repository.CalendarRepository;
 import com.csidigital.rh.dao.repository.HolidayRepository;
+import com.csidigital.rh.dao.repository.WeekendUpdatedRepository;
 import com.csidigital.rh.management.service.CalendarService;
 import com.csidigital.rh.shared.dto.request.CalendarRequest;
 import com.csidigital.rh.shared.dto.response.CalendarResponse;
@@ -26,10 +28,13 @@ public class CalendarImpl implements CalendarService {
     @Autowired
     private CalendarRepository calendarRepository ;
     @Autowired
+    private WeekendUpdatedRepository weekendUpdatedRepository ;
+    @Autowired
     private HolidayRepository holidayRepository ;
     @Autowired
     private ModelMapper modelMapper;
     @Override
+    @Transactional
     public CalendarResponse createCalendar(CalendarRequest request) {
         Calendar calendar = modelMapper.map(request, Calendar.class);
         Calendar savedCalendar = calendarRepository.save(calendar);
@@ -49,6 +54,15 @@ public class CalendarImpl implements CalendarService {
                 holidayRepository.save(holiday);
             }
         }
+
+            for (int i = 0; i < request.getWeekendUpdateds().size(); i++) {
+                //savedCalendar.getWeekendUpdateds().add(request.getWeekendUpdateds().get(i));
+                request.getWeekendUpdateds().get(i).setCalendar(savedCalendar);
+             //   request.getWeekendUpdateds().get(i).setId(null);
+                weekendUpdatedRepository.save(request.getWeekendUpdateds().get(i));
+        }
+
+
 
         return modelMapper.map(savedCalendar, CalendarResponse.class);
     }
@@ -94,5 +108,23 @@ public class CalendarImpl implements CalendarService {
     @Override
     public Long countCalendars() {
        return calendarRepository.countCalendars();
+    }
+
+    @Override
+    public List<WeekendUpdated> getCalendarWeekends(Long id) {
+        Calendar calendar = calendarRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Calendar with id " + id + " not found"));
+        List<WeekendUpdated> weekendUpdateds = calendar.getWeekendUpdateds();
+
+        return weekendUpdateds;
+    }
+
+    @Override
+    public List<Holiday> getCalendarHolidays(Long id) {
+        Calendar calendar = calendarRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Calendar with id " + id + " not found"));
+        List<Holiday> holidays = calendar.getHolidays();
+
+        return holidays;
     }
 }

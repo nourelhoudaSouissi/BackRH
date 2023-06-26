@@ -68,6 +68,7 @@ public class HolidayImpl implements HolidayService {
 
     @Override
     public void deleteHoliday(Long id) {
+
         holidayRepository.deleteById(id);
     }
 }

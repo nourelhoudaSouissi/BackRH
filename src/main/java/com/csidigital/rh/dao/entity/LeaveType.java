@@ -22,6 +22,7 @@ public class LeaveType {
     @Enumerated(EnumType.STRING)
     @Column(name = "timeOffType")
     private TimeOffType timeOffType;
+    private Integer alertNumberDays;
     @OneToMany(mappedBy = "leaveType", cascade = CascadeType.ALL)
     private List<TimeOff> timeOffList;
 

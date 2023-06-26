@@ -9,5 +9,7 @@ public class LeaveTypeRequest {
     private String description;
     private Integer duration;
     private TimeOffType timeOffType;
+    private Integer alertNumberDays;
+
 
 }
