@@ -1,5 +1,6 @@
 package com.csidigital.rh.management.service.impl;
 
+import com.csidigital.rh.dao.entity.EmailDetails;
 import com.csidigital.rh.dao.entity.Employee;
 import com.csidigital.rh.dao.entity.LeaveType;
 import com.csidigital.rh.dao.entity.TimeOff;
@@ -34,6 +35,8 @@ public class TimeOffImpl implements TimeOffService {
     private EmployeeRepository employeeRepository ;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private EmailImpl emailService;
 
     @Override
     public TimeOffResponse createTimeOff(TimeOffRequest request) {
@@ -53,7 +56,18 @@ public class TimeOffImpl implements TimeOffService {
         timeOff.setLeaveType(leaveType);
         timeOff.setEmployee(employee);
         timeOff.setRequestInputDate(LocalDate.now());
+
         TimeOff TimeOffSaved = timeOffRepository.save(timeOff);
+
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setRecipient("nourelhouda.souissi@esprit.tn");
+        emailDetails.setMsgBody("Email body");
+        emailDetails.setSubject("Email subject");
+        //emailDetails.setAttachment("path/to/attachment");
+
+        emailService.sendSimpleMail(emailDetails);
+
+
         return modelMapper.map(TimeOffSaved, TimeOffResponse.class);
     }
 
