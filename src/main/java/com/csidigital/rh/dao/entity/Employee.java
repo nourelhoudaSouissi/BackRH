@@ -103,6 +103,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<TimeOff> timeOffList;
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<RecoveryLeave> recoveryLeaves;
+
 
 
 

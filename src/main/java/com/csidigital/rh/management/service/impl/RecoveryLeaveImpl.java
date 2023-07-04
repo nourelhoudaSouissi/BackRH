@@ -33,18 +33,42 @@ public class RecoveryLeaveImpl  implements RecoveryLeaveService {
     private EmployeeRepository employeeRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private EmailImpl emailService;
+
 
     @Override
     public RecoveryLeaveResponse createRecoveryLeave(RecoveryLeaveRequest request) {
         Holiday holiday = null;
+        Employee employee = null;
         if(request.getHolidayNum()!=null) {
             holiday = holidayRepository.findById(request.getHolidayNum())
                     .orElseThrow();
         }
+
+        if(request.getEmployeeNum()!=null) {
+            employee = employeeRepository.findById(request.getEmployeeNum())
+                    .orElseThrow();
+        }
+
         RecoveryLeave recoveryLeave = modelMapper.map(request, RecoveryLeave.class);
         recoveryLeave.setInputDate(LocalDate.now());
         recoveryLeave.setRequestStatus(RequestStatus.PENDING);
         recoveryLeave.setHoliday(holiday);
+        recoveryLeave.setEmployee(employee);
+
+
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setRecipient(recoveryLeave.getEmployee().getEmailOne());
+       // emailDetails.setMsgBody("Email body");
+        emailDetails.setMsgBody("Je tiens par la présente à vous informerque j'ai travailler");
+        emailDetails.setSubject("Validation de récupération");
+        //emailDetails.setAttachment("path/to/attachment");
+
+        emailService.sendSimpleMail(emailDetails);
+
+
+
         RecoveryLeave savedRecoveryLeave = recoveryLeaveRepository.save(recoveryLeave);
         return modelMapper.map(savedRecoveryLeave, RecoveryLeaveResponse.class);
     }

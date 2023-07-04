@@ -45,8 +45,10 @@ public class RecoveryLeaveResponse {
     @Enumerated(EnumType.STRING)
     private RecoveryHours recoveryHours;
 
-//    private Long employeeId;
-//    private String employeeFirstName;
-//    private String employeeLastName;
-//    private String employeeRef;
+    private Long employeeNum;
+    private String employeeFirstName;
+    private String employeeLastName;
+
+
+
 }

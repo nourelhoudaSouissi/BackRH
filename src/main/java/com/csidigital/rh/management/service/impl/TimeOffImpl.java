@@ -60,13 +60,13 @@ public class TimeOffImpl implements TimeOffService {
         TimeOff TimeOffSaved = timeOffRepository.save(timeOff);
 
         EmailDetails emailDetails = new EmailDetails();
-        emailDetails.setRecipient("nourelhouda.souissi@esprit.tn");
+        emailDetails.setRecipient(timeOff.getEmployee().getEmailOne());
         emailDetails.setMsgBody("Email body");
-        emailDetails.setSubject("Email subject");
+        emailDetails.setMsgBody("Je tiens par la présente à vous informer de mon souhait de prendre"+" " + timeOff.getTimeOffPeriod() + " Jours"+ " pour la période allant du "+ timeOff.getStartDate() +" au" + timeOff.getEndDate() + " " +" inclus.\n Je vous remercie par avance de la bienveillance que vous porterez à ma demande, et vous saurais gré de bien vouloir m’informer de votre décision avant" + timeOff.getLeaveType().getAlertNumberDays()+ " "+"jours.\n Dans cette attente, je vous prie d’agréer,"+ timeOff.getEmployee().getCivility()+ " , l’expression de mes respectueuses salutations.");
+        emailDetails.setSubject("Demande de congé"+ " " +timeOff.getLeaveType().getName() );
         //emailDetails.setAttachment("path/to/attachment");
 
         emailService.sendSimpleMail(emailDetails);
-
 
         return modelMapper.map(TimeOffSaved, TimeOffResponse.class);
     }

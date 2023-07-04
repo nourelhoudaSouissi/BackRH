@@ -53,5 +53,9 @@ public class RecoveryLeave {
     private RecoveryHours recoveryHours;
 
 
+    @ManyToOne
+    @JoinColumn(name = "employeeId")
+    private Employee employee;
+
 
 }
