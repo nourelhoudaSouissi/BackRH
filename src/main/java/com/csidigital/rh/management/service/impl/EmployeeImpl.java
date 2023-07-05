@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -67,6 +69,15 @@ public class EmployeeImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee with id " + id + " not found"));
         EmployeeResponse employeeResponse = modelMapper.map(employee, EmployeeResponse.class);
+
+        // Calculate remainingPaidLeave using getSoldeConges method
+        Double remainingPaidLeave = getSoldeConges(id);
+
+        // Set remainingPaidLeave with correct precision
+        BigDecimal remainingPaidLeaveBigDecimal = BigDecimal.valueOf(remainingPaidLeave).setScale(2, RoundingMode.HALF_UP);
+        employeeResponse.setRemainingPaidLeave(remainingPaidLeaveBigDecimal.doubleValue());
+
+
         return employeeResponse;
     }
 
@@ -88,29 +99,6 @@ public class EmployeeImpl implements EmployeeService {
     public String employeeSerialNumberGenerator() {
         return null;
     }
-
-
-//
-//    @Override
-//    public String employeeSerialNumberGenerator() {
-//        String lastCode = employeeRepository.resourceLastCode();
-//        if (lastCode == null) {
-//            return "E_0001";
-//        }
-//        Integer codeNumber = Integer.parseInt(lastCode.substring(2));
-//
-//        if (codeNumber < 10000) {
-//            codeNumber= codeNumber+Integer.parseInt(String.format("%04d", 1));
-//        }
-//        String numbers= codeNumber.toString();
-//        if (numbers.length()<4){
-//            for(int i=0;i<3;i++){
-//                numbers='0'+ numbers;
-//            }
-//
-//        }
-//        return "E_" + numbers;
-//    }
 
     @Override
     public List<Employee> findByEmployeeStatus() {

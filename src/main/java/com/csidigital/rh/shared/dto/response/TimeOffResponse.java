@@ -1,5 +1,6 @@
 package com.csidigital.rh.shared.dto.response;
 
+import com.csidigital.rh.dao.entity.Employee;
 import com.csidigital.rh.shared.enumeration.*;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,7 +30,7 @@ public class TimeOffResponse {
     private String leaveTypeName;
 
     private TimeOffType leaveType;
-    private Long employeeId;
+    //private Long employeeId;
     private String employeeFirstName;
     private String employeeLastName;
     private String justificationDoc;
@@ -37,5 +38,8 @@ public class TimeOffResponse {
     private TimeOffPeriodType timeOffPeriodType;
     @Enumerated(EnumType.STRING)
     private TimeOfTimeType timeOfTimeType;
+
+
+    private EmployeeResponse employee;
 
 }
