@@ -41,5 +41,6 @@ public class TimeOffResponse {
 
 
     private EmployeeResponse employee;
+    private Double remainingPaidLeave;  // New property for remainingPaidLeave
 
 }

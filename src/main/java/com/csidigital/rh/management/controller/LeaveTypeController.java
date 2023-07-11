@@ -1,11 +1,8 @@
 package com.csidigital.rh.management.controller;
 
 import com.csidigital.rh.management.service.impl.LeaveTypeImpl;
-import com.csidigital.rh.management.service.impl.RecoveryLeaveImpl;
 import com.csidigital.rh.shared.dto.request.LeaveTypeRequest;
-import com.csidigital.rh.shared.dto.request.RecoveryLeaveRequest;
 import com.csidigital.rh.shared.dto.response.LeaveTypeResponse;
-import com.csidigital.rh.shared.dto.response.RecoveryLeaveResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +40,28 @@ public class LeaveTypeController {
     @DeleteMapping("/delete/{id}")
     public void deleteLeaveType(@PathVariable Long id){
         leaveTypeImpl.deleteLeaveType(id);
+    }
+
+    @GetMapping("/getTotalDurationSicknessLeave")
+    public Double getTotalDurationSicknessLeave(){
+
+        return leaveTypeImpl.getTotalDurationSicknessLeave();
+    }
+
+    @GetMapping("/getTotalDurationSpecialPaidLeave")
+    public Double getTotalDurationSpecialPaidLeave(){
+
+        return leaveTypeImpl.getTotalDurationSpecialPaidLeave();
+    }
+
+    @GetMapping("/getSpecialPaidLeaveList")
+    public List<Object[]> getSpecialPaidLeaveList(){
+
+        return leaveTypeImpl.getSpecialPaidLeaveList();
+    }
+
+    @GetMapping("/getSicknessLeaveList")
+    public List<Object[]>  getSicknessLeaveList(){
+        return leaveTypeImpl.getSicknessLeaveList();
     }
 }

@@ -1,11 +1,13 @@
 package com.csidigital.rh.shared.dto.response;
 
+import com.csidigital.rh.dao.entity.Employee;
 import com.csidigital.rh.shared.enumeration.*;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -56,4 +58,9 @@ public class EmployeeResponse {
     private Double compassioateLeaveRest;
     private Double remainingRecoveryLeaveRest;
     private LocalDate hireDate;
+    private EmployeeResponse hierarchicalSuperior;
+
+    private Map<LeaveTypeResponse, Double> leaveBalances;
+
+
 }

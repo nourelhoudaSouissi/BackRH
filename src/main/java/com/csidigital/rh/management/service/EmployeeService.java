@@ -34,4 +34,6 @@ public interface EmployeeService {
     Double getSpecialPaidLeaveRest(Long employeeId);
 
     Double getSicknessLeaveRest(Long employeeId);
+
+
 }

@@ -7,13 +7,16 @@ import com.csidigital.rh.dao.entity.TimeOff;
 import com.csidigital.rh.dao.repository.EmployeeRepository;
 import com.csidigital.rh.dao.repository.LeaveTypeRepository;
 import com.csidigital.rh.dao.repository.TimeOffRepository;
+import com.csidigital.rh.management.service.EmployeeService;
 import com.csidigital.rh.management.service.TimeOffService;
 import com.csidigital.rh.shared.dto.request.TimeOffRequest;
+import com.csidigital.rh.shared.dto.response.EmployeeResponse;
 import com.csidigital.rh.shared.dto.response.TimeOffResponse;
 import com.csidigital.rh.shared.enumeration.RequestStatus;
 import com.csidigital.rh.shared.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.hibernate.service.spi.ServiceException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -37,6 +41,9 @@ public class TimeOffImpl implements TimeOffService {
     private ModelMapper modelMapper;
     @Autowired
     private EmailImpl emailService;
+    @Autowired
+    private EmployeeService employeeService;
+
 
     @Override
     public TimeOffResponse createTimeOff(TimeOffRequest request) {
@@ -91,13 +98,28 @@ public class TimeOffImpl implements TimeOffService {
 
 
 
-    @Override
+   /* @Override
     public TimeOffResponse getTimeOffById(Long id) {
         TimeOff timeOff =timeOffRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("TimeOff with id " +id+ " not found"));
         TimeOffResponse timeOffResponse = modelMapper.map(timeOff, TimeOffResponse.class);
         return timeOffResponse;
-    }
+    }*/
+   @Override
+   public TimeOffResponse getTimeOffById(Long id) {
+       TimeOff timeOff = timeOffRepository.findById(id)
+               .orElseThrow(() -> new ResourceNotFoundException("TimeOff with id " + id + " not found"));
+
+       TimeOffResponse timeOffResponse = modelMapper.map(timeOff, TimeOffResponse.class);
+
+       // Retrieve associated Employee and calculate remainingPaidLeave
+       EmployeeResponse employeeResponse = employeeService.getEmployeeById(timeOff.getEmployee().getId());
+
+       // Set remainingPaidLeave in the TimeOffResponse
+       timeOffResponse.setRemainingPaidLeave(employeeResponse.getRemainingPaidLeave());
+
+       return timeOffResponse;
+   }
 
     @Override
     public TimeOffResponse updateTimeOff(TimeOffRequest request, Long id) {
@@ -116,11 +138,65 @@ public class TimeOffImpl implements TimeOffService {
     }
 
     @Override
+    @Transactional
     public void updateStatusToValidatedById(Long id) {
-        timeOffRepository.updateStatusToValidatedById(id);   }
+        TimeOff timeOff = timeOffRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("TimeOff with id " + id + " not found"));
+
+        LeaveType leaveType = timeOff.getLeaveType();
+        Employee employee = timeOff.getEmployee();
+
+        int leaveTypeDuration = leaveType.getDuration();
+        double timeOffDuration = timeOff.getTimeOffPeriod();
+
+        double remainingBalance = leaveTypeDuration - timeOffDuration;
+        // Perform further actions with the remaining balance
+
+        try {
+            // Update the leave balance for the leave type in the employee object
+            employee.updateLeaveBalance(leaveType, remainingBalance);
+
+            // Save the updated employee entity
+            employeeRepository.save(employee);
+        } catch (Exception e) {
+            // Handle the exception appropriately, such as logging the error or rolling back the transaction
+            // You can throw a custom exception or take any other necessary action
+            throw new ServiceException("Error occurred while updating leave balance for TimeOff with id " + id, e);
+        }
+
+        // Update the status to validated in the repository
+        timeOffRepository.updateStatusToValidatedById(id);
+    }
+
 
     @Override
     public void updateStatusToRejectedById(Long id) {
         timeOffRepository.updateStatusToRejectedById(id);
+    }
+
+    @Override
+    public List<Object[]> getTotalDurationByLeaveTypeAndEmployeeId(Long employeeId) {
+        return timeOffRepository.getTotalDurationByLeaveTypeAndEmployeeId(employeeId);
+
+    }
+
+    @Override
+    public List<Object[]> getTotalDurationSpecialPaidLeaveByLeaveTypeAndEmployeeId(Long employeeId) {
+        return timeOffRepository.getTotalDurationSpecialPaidLeaveByLeaveTypeAndEmployeeId(employeeId);
+    }
+
+    @Override
+    public List<Object[]> getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId(Long employeeId) {
+        return timeOffRepository.getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId(employeeId);
+    }
+
+    @Override
+    public Double getTotalDurationSpecialPaidLeaveEmployeeId(Long employeeId) {
+        return timeOffRepository.getTotalDurationSpecialPaidLeaveEmployeeId(employeeId);
+    }
+
+    @Override
+    public Double getTotalDurationSicknessLeaveEmployeeId(Long employeeId) {
+        return timeOffRepository.getTotalDurationSicknessLeaveEmployeeId(employeeId);
     }
 }

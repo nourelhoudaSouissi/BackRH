@@ -6,6 +6,7 @@ import com.csidigital.rh.shared.dto.response.TimeOffResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,5 +51,28 @@ public class TimeOffController {
         timeOffImpl.updateStatusToRejectedById(id);
     }
 
+
+    @GetMapping("getLeaveTypeDurationsByEmployee/{employeeId}")
+    public List<Object[]> getLeaveTypeDurationsByEmployee(@PathVariable Long employeeId) {
+        return timeOffImpl.getTotalDurationByLeaveTypeAndEmployeeId(employeeId);
+    }
+
+    @GetMapping("getTotalDurationSpecialPaidLeaveByLeaveTypeAndEmployeeId/{employeeId}")
+    public List<Object[]> getTotalDurationSpecialPaidLeaveByLeaveTypeAndEmployeeId(@PathVariable Long employeeId) {
+        return timeOffImpl.getTotalDurationSpecialPaidLeaveByLeaveTypeAndEmployeeId(employeeId);
+    }
+    @GetMapping("getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId/{employeeId}")
+    public List<Object[]> getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId(@PathVariable Long employeeId) {
+        return timeOffImpl.getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId(employeeId);
+    }
+
+    @GetMapping("getTotalDurationSpecialPaidLeaveEmployeeId/{employeeId}")
+    public Double getTotalDurationSpecialPaidLeaveEmployeeId(@PathVariable Long employeeId) {
+        return timeOffImpl.getTotalDurationSpecialPaidLeaveEmployeeId(employeeId);
+    }
+    @GetMapping("getTotalDurationSicknessLeaveEmployeeId/{employeeId}")
+    public Double getTotalDurationSicknessLeaveEmployeeId(@PathVariable Long employeeId) {
+        return timeOffImpl.getTotalDurationSicknessLeaveEmployeeId(employeeId);
+    }
 }
 

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data
@@ -108,5 +109,19 @@ public class Employee {
 
 
 
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "hierarchical_superior_id")
+    private Employee hierarchicalSuperior;
+
+    @ElementCollection
+    @CollectionTable(name = "leave_balance",
+            joinColumns = @JoinColumn(name = "employee_id"))
+    @MapKeyJoinColumn(name = "leave_type_id")
+    @Column(name = "balance")
+    private Map<LeaveType, Double> leaveBalances;
+    public void updateLeaveBalance(LeaveType leaveType, double balance) {
+        leaveBalances.put(leaveType, balance);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.csidigital.rh.shared.dto.request;
 
+import com.csidigital.rh.dao.entity.Employee;
 import com.csidigital.rh.dao.entity.TechnicalFile;
 import com.csidigital.rh.shared.enumeration.*;
 import jakarta.persistence.EnumType;
@@ -56,6 +57,11 @@ public class EmployeeRequest {
     private Double compassioateLeaveRest;
     private Double remainingRecoveryLeaveRest;
     private LocalDate hireDate;
+
+    private Long hierarchicalSuperiorNum;
+
+    private EmployeeRequest hierarchicalSuperior;
+
 
 
 }

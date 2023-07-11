@@ -17,4 +17,10 @@ public interface TimeOffService {
     void deleteTimeOff(Long id);
     void updateStatusToValidatedById(Long id);
     void updateStatusToRejectedById( Long id);
+    List<Object[]> getTotalDurationByLeaveTypeAndEmployeeId(@Param("employeeId") Long employeeId);
+    List<Object[]> getTotalDurationSpecialPaidLeaveByLeaveTypeAndEmployeeId(@Param("employeeId") Long employeeId);
+    List<Object[]> getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId(@Param("employeeId") Long employeeId);
+    Double getTotalDurationSpecialPaidLeaveEmployeeId(@Param("employeeId") Long employeeId);
+    Double getTotalDurationSicknessLeaveEmployeeId(@Param("employeeId") Long employeeId);
+
 }

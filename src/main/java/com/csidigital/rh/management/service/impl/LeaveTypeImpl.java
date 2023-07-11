@@ -64,6 +64,26 @@ public class LeaveTypeImpl implements LeaveTypeService {
     }
 
     @Override
+    public Double getTotalDurationSicknessLeave() {
+        return leaveTypeRepository.getTotalDurationSicknessLeave();
+    }
+
+    @Override
+    public Double getTotalDurationSpecialPaidLeave() {
+        return leaveTypeRepository.getTotalDurationSpecialPaidLeave();
+    }
+
+    @Override
+    public List<Object[]>  getSicknessLeaveList() {
+        return leaveTypeRepository.getSicknessLeaveList();
+    }
+
+    @Override
+    public List<Object[]>  getSpecialPaidLeaveList() {
+        return leaveTypeRepository.getSpecialPaidLeaveList();
+    }
+
+    @Override
     public void deleteLeaveType(Long id) {
         leaveTypeRepository.deleteById(id);
     }

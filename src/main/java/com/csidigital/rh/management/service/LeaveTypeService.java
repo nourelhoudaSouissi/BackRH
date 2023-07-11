@@ -15,4 +15,13 @@ public interface LeaveTypeService {
     LeaveTypeResponse updateLeaveType(LeaveTypeRequest request, Long id);
 
     void deleteLeaveType(Long id);
+
+    Double getTotalDurationSicknessLeave();
+
+    Double getTotalDurationSpecialPaidLeave();
+
+    List<Object[]>  getSicknessLeaveList();
+    List<Object[]>  getSpecialPaidLeaveList();
+
+
 }
