@@ -140,7 +140,7 @@ public class TimeOffImpl implements TimeOffService {
     @Override
     @Transactional
     public void updateStatusToValidatedById(Long id) {
-        TimeOff timeOff = timeOffRepository.findById(id)
+       /* TimeOff timeOff = timeOffRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("TimeOff with id " + id + " not found"));
 
         LeaveType leaveType = timeOff.getLeaveType();
@@ -163,7 +163,7 @@ public class TimeOffImpl implements TimeOffService {
             // You can throw a custom exception or take any other necessary action
             throw new ServiceException("Error occurred while updating leave balance for TimeOff with id " + id, e);
         }
-
+*/
         // Update the status to validated in the repository
         timeOffRepository.updateStatusToValidatedById(id);
     }
@@ -198,5 +198,15 @@ public class TimeOffImpl implements TimeOffService {
     @Override
     public Double getTotalDurationSicknessLeaveEmployeeId(Long employeeId) {
         return timeOffRepository.getTotalDurationSicknessLeaveEmployeeId(employeeId);
+    }
+
+    @Override
+    public Double getTotalDurationPaidLeaveEmployeeId(Long employeeId) {
+        return timeOffRepository.getTotalDurationPaidLeaveEmployeeId(employeeId);
+    }
+
+    @Override
+    public Double getTotalDurationUnpaidLeaveEmployeeId(Long employeeId) {
+        return timeOffRepository.getTotalDurationUnpaidLeaveEmployeeId(employeeId);
     }
 }

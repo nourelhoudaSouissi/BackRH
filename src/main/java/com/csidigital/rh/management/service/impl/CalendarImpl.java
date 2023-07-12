@@ -54,16 +54,12 @@ public class CalendarImpl implements CalendarService {
                 holidayRepository.save(holiday);
             }
         }
-
             for (int i = 0; i < request.getWeekendUpdateds().size(); i++) {
                 //savedCalendar.getWeekendUpdateds().add(request.getWeekendUpdateds().get(i));
                 request.getWeekendUpdateds().get(i).setCalendar(savedCalendar);
              //   request.getWeekendUpdateds().get(i).setId(null);
                 weekendUpdatedRepository.save(request.getWeekendUpdateds().get(i));
         }
-
-
-
         return modelMapper.map(savedCalendar, CalendarResponse.class);
     }
 
@@ -72,7 +68,6 @@ public class CalendarImpl implements CalendarService {
     public List<CalendarResponse> getAllCalendars() {
         List<Calendar> calendars = calendarRepository.findAll();
         List<CalendarResponse> calendarResponses = new ArrayList<>();
-
 
         for (Calendar calendar: calendars) {
             CalendarResponse response = modelMapper.map(calendar, CalendarResponse.class);

@@ -74,5 +74,14 @@ public class TimeOffController {
     public Double getTotalDurationSicknessLeaveEmployeeId(@PathVariable Long employeeId) {
         return timeOffImpl.getTotalDurationSicknessLeaveEmployeeId(employeeId);
     }
+
+    @GetMapping("getTotalDurationPaidLeaveEmployeeId/{employeeId}")
+    public Double getTotalDurationPaidLeaveEmployeeId(@PathVariable Long employeeId) {
+        return timeOffImpl.getTotalDurationPaidLeaveEmployeeId(employeeId);
+    }
+    @GetMapping("getTotalDurationUnpaidLeaveEmployeeId/{employeeId}")
+    public Double getTotalDurationUnpaidLeaveEmployeeId(@PathVariable Long employeeId) {
+        return timeOffImpl.getTotalDurationUnpaidLeaveEmployeeId(employeeId);
+    }
 }
 

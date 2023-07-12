@@ -22,5 +22,7 @@ public interface TimeOffService {
     List<Object[]> getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId(@Param("employeeId") Long employeeId);
     Double getTotalDurationSpecialPaidLeaveEmployeeId(@Param("employeeId") Long employeeId);
     Double getTotalDurationSicknessLeaveEmployeeId(@Param("employeeId") Long employeeId);
+    Double getTotalDurationPaidLeaveEmployeeId(@Param("employeeId") Long employeeId);
+    Double getTotalDurationUnpaidLeaveEmployeeId(@Param("employeeId") Long employeeId);
 
 }

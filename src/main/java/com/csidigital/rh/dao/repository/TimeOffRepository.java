@@ -66,6 +66,20 @@ public interface TimeOffRepository extends JpaRepository<TimeOff,Long> {
             nativeQuery = true)
     Double getTotalDurationSicknessLeaveEmployeeId(@Param("employeeId") Long employeeId);
 
+    @Query(value = "SELECT SUM(tf.time_off_period) As totalDuration " +
+    "FROM time_off tf " +
+    "JOIN employee emp ON tf.employee_id = emp.id " +
+    "JOIN leave_type lt ON tf.leave_type_id = lt.id " +
+    "WHERE emp.id = 1 AND tf.request_status = 'VALIDATED' AND lt.time_off_type = 'PAID_LEAVE'",
+            nativeQuery = true)
+    Double getTotalDurationPaidLeaveEmployeeId(@Param("employeeId") Long employeeId);
 
+    @Query(value = "SELECT SUM(tf.time_off_period) As totalDuration " +
+            "FROM time_off tf " +
+            "JOIN employee emp ON tf.employee_id = emp.id " +
+            "JOIN leave_type lt ON tf.leave_type_id = lt.id " +
+            "WHERE emp.id = 1 AND tf.request_status = 'VALIDATED' AND lt.time_off_type = 'UNPAIED_TIME_OFF'",
+            nativeQuery = true)
+    Double getTotalDurationUnpaidLeaveEmployeeId(@Param("employeeId") Long employeeId);
 
 }
