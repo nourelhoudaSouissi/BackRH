@@ -2,6 +2,7 @@ package com.csidigital.rh.dao.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,8 +28,8 @@ public class Holiday {
     @OneToMany(mappedBy = "holiday", cascade = CascadeType.ALL)
     private List<RecoveryLeave> recoveryLeaveList;
 
-    @JsonBackReference
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "calendarId")
     private Calendar calendar;
 }

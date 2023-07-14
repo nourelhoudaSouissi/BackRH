@@ -3,13 +3,11 @@ package com.csidigital.rh.management.controller;
 import com.csidigital.rh.dao.entity.Holiday;
 import com.csidigital.rh.dao.entity.WeekendUpdated;
 import com.csidigital.rh.management.service.impl.CalendarImpl;
-import com.csidigital.rh.management.service.impl.HolidayImpl;
 import com.csidigital.rh.shared.dto.request.CalendarRequest;
-import com.csidigital.rh.shared.dto.request.HolidayRequest;
 import com.csidigital.rh.shared.dto.response.CalendarResponse;
-import com.csidigital.rh.shared.dto.response.HolidayResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,14 +28,15 @@ public class CalendarController {
         return calendarImpl.getCalendarById(id);
     }
 
-    @PostMapping("/createCalendar")
+     @PostMapping( "/createCalendar")
     public CalendarResponse createCalendar(@Valid @RequestBody CalendarRequest calendarRequest){
+        System.out.println(calendarRequest);
         return calendarImpl.createCalendar(calendarRequest);
     }
 
     @PutMapping("/updateCalendar/{id}")
     public CalendarResponse updateCalendar(@Valid @RequestBody CalendarRequest calendarRequest,
-                                         @PathVariable Long id){
+                                           @PathVariable Long id){
         return calendarImpl.updateCalendar(calendarRequest, id);
     }
 

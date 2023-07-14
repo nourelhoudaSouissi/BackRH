@@ -2,6 +2,7 @@ package com.csidigital.rh.dao.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,8 +35,9 @@ public class WeekendUpdated {
 
     private LocalDate activationStartDate;
     private LocalDate activationEndDate;
-    @JsonBackReference
     @ManyToOne
+
+    @JsonBackReference
     @Cascade({CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "calendarId")
     private Calendar calendar;

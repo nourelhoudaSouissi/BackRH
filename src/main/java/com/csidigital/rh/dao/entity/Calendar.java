@@ -1,7 +1,7 @@
 package com.csidigital.rh.dao.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,12 +21,12 @@ public class Calendar {
     private String name;
     private String description;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Holiday> holidays;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<WeekendUpdated> weekendUpdateds;
 
 

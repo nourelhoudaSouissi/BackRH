@@ -1,10 +1,10 @@
 package com.csidigital.rh.shared.dto.request;
 
 import com.csidigital.rh.dao.entity.Holiday;
-import com.csidigital.rh.dao.entity.Weekend;
 import com.csidigital.rh.dao.entity.WeekendUpdated;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,6 +15,5 @@ public class CalendarRequest {
 
     private List<Holiday> holidays;
     private List<WeekendUpdated> weekendUpdateds  ;
-    //private List<Weekend> weekends  ;
 
 }

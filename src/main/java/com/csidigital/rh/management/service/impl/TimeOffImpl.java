@@ -98,13 +98,6 @@ public class TimeOffImpl implements TimeOffService {
 
 
 
-   /* @Override
-    public TimeOffResponse getTimeOffById(Long id) {
-        TimeOff timeOff =timeOffRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("TimeOff with id " +id+ " not found"));
-        TimeOffResponse timeOffResponse = modelMapper.map(timeOff, TimeOffResponse.class);
-        return timeOffResponse;
-    }*/
    @Override
    public TimeOffResponse getTimeOffById(Long id) {
        TimeOff timeOff = timeOffRepository.findById(id)
@@ -140,37 +133,37 @@ public class TimeOffImpl implements TimeOffService {
     @Override
     @Transactional
     public void updateStatusToValidatedById(Long id) {
-       /* TimeOff timeOff = timeOffRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("TimeOff with id " + id + " not found"));
 
-        LeaveType leaveType = timeOff.getLeaveType();
-        Employee employee = timeOff.getEmployee();
+        TimeOff timeOff = timeOffRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("TimeOff not found with ID: " + id));
 
-        int leaveTypeDuration = leaveType.getDuration();
-        double timeOffDuration = timeOff.getTimeOffPeriod();
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setRecipient(timeOff.getEmployee().getEmailOne());
 
-        double remainingBalance = leaveTypeDuration - timeOffDuration;
-        // Perform further actions with the remaining balance
+        emailDetails.setMsgBody("Email body");
+        emailDetails.setMsgBody("Votre Congé de"+" " + timeOff.getTimeOffPeriod() + " Jours"+ " pour la période allant du "+ timeOff.getStartDate() +" au" + timeOff.getEndDate() + " " +" inclus.\n a été accepté. \n"+ timeOff.getEmployee().getHierarchicalSuperior().getCivility()+" "+ timeOff.getEmployee().getHierarchicalSuperior().getFirstName()+" "+ timeOff.getEmployee().getHierarchicalSuperior().getLastName());
+        emailDetails.setSubject("Demande de congé"+ " " +timeOff.getLeaveType().getName() );
+        //emailDetails.setAttachment("path/to/attachment");
 
-        try {
-            // Update the leave balance for the leave type in the employee object
-            employee.updateLeaveBalance(leaveType, remainingBalance);
+        emailService.sendSimpleMail(emailDetails);
 
-            // Save the updated employee entity
-            employeeRepository.save(employee);
-        } catch (Exception e) {
-            // Handle the exception appropriately, such as logging the error or rolling back the transaction
-            // You can throw a custom exception or take any other necessary action
-            throw new ServiceException("Error occurred while updating leave balance for TimeOff with id " + id, e);
-        }
-*/
-        // Update the status to validated in the repository
         timeOffRepository.updateStatusToValidatedById(id);
     }
 
 
     @Override
     public void updateStatusToRejectedById(Long id) {
+        TimeOff timeOff = timeOffRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("TimeOff not found with ID: " + id));
+
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setRecipient(timeOff.getEmployee().getEmailOne());
+        emailDetails.setMsgBody("Email body");
+        emailDetails.setMsgBody("Votre Congé de"+" " + timeOff.getTimeOffPeriod() + " Jours"+ " pour la période allant du "+ timeOff.getStartDate() +" au" + timeOff.getEndDate() + " " +" inclus.\n a été refusé. \n"+ timeOff.getEmployee().getHierarchicalSuperior().getCivility()+" "+ timeOff.getEmployee().getHierarchicalSuperior().getFirstName()+" "+ timeOff.getEmployee().getHierarchicalSuperior().getLastName());
+        emailDetails.setSubject("Demande de congé"+ " " +timeOff.getLeaveType().getName() );
+        //emailDetails.setAttachment("path/to/attachment");
+
+        emailService.sendSimpleMail(emailDetails);
         timeOffRepository.updateStatusToRejectedById(id);
     }
 

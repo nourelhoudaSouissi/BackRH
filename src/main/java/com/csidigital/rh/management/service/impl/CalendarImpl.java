@@ -9,7 +9,6 @@ import com.csidigital.rh.dao.repository.WeekendUpdatedRepository;
 import com.csidigital.rh.management.service.CalendarService;
 import com.csidigital.rh.shared.dto.request.CalendarRequest;
 import com.csidigital.rh.shared.dto.response.CalendarResponse;
-import com.csidigital.rh.shared.dto.response.HolidayResponse;
 import com.csidigital.rh.shared.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -36,8 +35,9 @@ public class CalendarImpl implements CalendarService {
     @Override
     @Transactional
     public CalendarResponse createCalendar(CalendarRequest request) {
+
         Calendar calendar = modelMapper.map(request, Calendar.class);
-        Calendar savedCalendar = calendarRepository.save(calendar);
+       Calendar savedCalendar = calendarRepository.save(calendar);
         List<Holiday> holidays = request.getHolidays();
 
         String referencePrefix = "Calendar";
@@ -67,14 +67,14 @@ public class CalendarImpl implements CalendarService {
     @Override
     public List<CalendarResponse> getAllCalendars() {
         List<Calendar> calendars = calendarRepository.findAll();
-        List<CalendarResponse> calendarResponses = new ArrayList<>();
+        List<CalendarResponse> cdrRespons = new ArrayList<>();
 
-        for (Calendar calendar: calendars) {
+        for (Calendar calendar : calendars) {
             CalendarResponse response = modelMapper.map(calendar, CalendarResponse.class);
-            calendarResponses.add(response);
+            cdrRespons.add(response);
         }
 
-        return calendarResponses;
+        return cdrRespons;
     }
 
     @Override
