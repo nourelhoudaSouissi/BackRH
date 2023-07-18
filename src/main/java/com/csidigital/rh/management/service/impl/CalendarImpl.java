@@ -91,6 +91,20 @@ public class CalendarImpl implements CalendarService {
                 .orElseThrow(()-> new ResourceNotFoundException("Calendar with id: " + id + " not found"));
         modelMapper.map(request, existingCalendar);
         Calendar savedCalendar = calendarRepository.save(existingCalendar);
+        List<Holiday> holidays = request.getHolidays();
+        List<WeekendUpdated> weekendUpdateds = request.getWeekendUpdateds();
+
+        for (Holiday holiday:
+                holidays) {
+            holiday.setCalendar(savedCalendar);
+            holidayRepository.save(holiday);
+        }
+
+        for (WeekendUpdated weekendUpdated :
+                weekendUpdateds) {
+            weekendUpdated.setCalendar(savedCalendar);
+            weekendUpdatedRepository.save(weekendUpdated);
+        }
         return modelMapper.map(savedCalendar, CalendarResponse.class);
     }
 

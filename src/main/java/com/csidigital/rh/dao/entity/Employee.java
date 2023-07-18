@@ -107,7 +107,8 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<RecoveryLeave> recoveryLeaves;
 
-
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<ExpenseReport> expenseReports;
 
     @JsonIgnore
     @OneToOne

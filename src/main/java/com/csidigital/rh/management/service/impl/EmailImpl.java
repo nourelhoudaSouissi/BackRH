@@ -20,10 +20,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 @Service
 public class EmailImpl implements EmailService {
-   // @Autowired
     private JavaMailSender javaMailSender;
-
-    //@Value("${spring.mail.username}")
     private String sender;
     @Autowired
     public EmailImpl(JavaMailSender javaMailSender, @Value("${spring.mail.username}") String sender) {
@@ -40,7 +37,7 @@ public class EmailImpl implements EmailService {
                     = new SimpleMailMessage();
 
             // Setting up necessary details
-            mailMessage.setFrom(sender);
+            mailMessage.setFrom(details.getSender());
             mailMessage.setTo(details.getRecipient());
             mailMessage.setText(details.getMsgBody());
             mailMessage.setSubject(details.getSubject());

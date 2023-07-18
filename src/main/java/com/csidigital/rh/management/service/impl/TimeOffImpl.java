@@ -138,11 +138,10 @@ public class TimeOffImpl implements TimeOffService {
                 .orElseThrow(() -> new IllegalArgumentException("TimeOff not found with ID: " + id));
 
         EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setSender("soumrihoussem6@gmail.com");
         emailDetails.setRecipient(timeOff.getEmployee().getEmailOne());
-
-        emailDetails.setMsgBody("Email body");
         emailDetails.setMsgBody("Votre Congé de"+" " + timeOff.getTimeOffPeriod() + " Jours"+ " pour la période allant du "+ timeOff.getStartDate() +" au" + timeOff.getEndDate() + " " +" inclus.\n a été accepté. \n"+ timeOff.getEmployee().getHierarchicalSuperior().getCivility()+" "+ timeOff.getEmployee().getHierarchicalSuperior().getFirstName()+" "+ timeOff.getEmployee().getHierarchicalSuperior().getLastName());
-        emailDetails.setSubject("Demande de congé"+ " " +timeOff.getLeaveType().getName() );
+        emailDetails.setSubject("Validation Congés"+ " " +timeOff.getLeaveType().getName() );
         //emailDetails.setAttachment("path/to/attachment");
 
         emailService.sendSimpleMail(emailDetails);
@@ -158,6 +157,7 @@ public class TimeOffImpl implements TimeOffService {
 
         EmailDetails emailDetails = new EmailDetails();
         emailDetails.setRecipient(timeOff.getEmployee().getEmailOne());
+        emailDetails.setSender(timeOff.getEmployee().getHierarchicalSuperior().getEmailOne());
         emailDetails.setMsgBody("Email body");
         emailDetails.setMsgBody("Votre Congé de"+" " + timeOff.getTimeOffPeriod() + " Jours"+ " pour la période allant du "+ timeOff.getStartDate() +" au" + timeOff.getEndDate() + " " +" inclus.\n a été refusé. \n"+ timeOff.getEmployee().getHierarchicalSuperior().getCivility()+" "+ timeOff.getEmployee().getHierarchicalSuperior().getFirstName()+" "+ timeOff.getEmployee().getHierarchicalSuperior().getLastName());
         emailDetails.setSubject("Demande de congé"+ " " +timeOff.getLeaveType().getName() );

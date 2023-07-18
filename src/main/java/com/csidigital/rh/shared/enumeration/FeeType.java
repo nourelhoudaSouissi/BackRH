@@ -1,5 +1,6 @@
 package com.csidigital.rh.shared.enumeration;
 
 public enum FeeType {
-    RESTAURANT,TRAVEL,MILEAGE,PHONE,HOTEL,OTHER
+ TRANSPORT, ACCOMODATION, FUEL, MEALS, PHONE, LEISURE,
+    CLIENT_INVITATION, OTHER
 }

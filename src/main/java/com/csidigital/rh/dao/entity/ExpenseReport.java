@@ -16,26 +16,23 @@ import java.time.LocalDate;
 @NoArgsConstructor
 
 public class ExpenseReport {
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private LocalDate billingDate;
     @Enumerated(EnumType.STRING)
     private FeeType feeType;
-    @Enumerated(EnumType.STRING)
-    private Absence absence;
-    private String description;
     private double amount;
     private double currency;
     private Boolean customerBilling;
-    private Boolean paid;
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
-    private Boolean advance;
-    private double advanceAmount;
-    private double advanceRest;
-    private double fixedAmount;
-    private double feeSum;
+    private LocalDate createDate;
+    private String comment;
+
+    @ManyToOne
+    @JoinColumn(name = "employeeId")
+    private Employee employee;
 
 }
 
