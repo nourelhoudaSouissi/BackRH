@@ -13,4 +13,6 @@ public interface ExpenseReportService {
     ExpenseReportResponse updateExpenseReport(ExpenseReportRequest request, Long id);
 
     void deleteExpenseReport(Long id);
+    void updateStatusToValidatedById(Long id);
+    void updateStatusToRejectedById( Long id);
 }

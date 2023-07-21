@@ -1,5 +1,6 @@
 package com.csidigital.rh.shared.dto.response;
 
+import com.csidigital.rh.shared.enumeration.Currency;
 import com.csidigital.rh.shared.enumeration.FeeType;
 import com.csidigital.rh.shared.enumeration.RequestStatus;
 import jakarta.persistence.*;
@@ -14,7 +15,8 @@ public class ExpenseReportResponse {
     @Enumerated(EnumType.STRING)
     private FeeType feeType;
     private double amount;
-    private double currency;
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
     private Boolean customerBilling;
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;

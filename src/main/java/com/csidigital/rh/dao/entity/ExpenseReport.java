@@ -1,6 +1,7 @@
 package com.csidigital.rh.dao.entity;
 
 import com.csidigital.rh.shared.enumeration.Absence;
+import com.csidigital.rh.shared.enumeration.Currency;
 import com.csidigital.rh.shared.enumeration.FeeType;
 import com.csidigital.rh.shared.enumeration.RequestStatus;
 import jakarta.persistence.*;
@@ -23,7 +24,7 @@ public class ExpenseReport {
     @Enumerated(EnumType.STRING)
     private FeeType feeType;
     private double amount;
-    private double currency;
+    private Currency currency;
     private Boolean customerBilling;
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;

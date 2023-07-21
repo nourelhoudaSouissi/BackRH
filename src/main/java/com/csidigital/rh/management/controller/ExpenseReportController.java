@@ -41,4 +41,15 @@ public class ExpenseReportController {
     public void deleteExpenseReport(@PathVariable Long id){
         ExpenseReportService.deleteExpenseReport(id);
     }
+
+    @PutMapping("/updateStatusToValidatedById/{id}")
+    void updateStatusToValidatedById(@PathVariable Long id){
+        ExpenseReportService.updateStatusToValidatedById(id);
+    }
+    @PutMapping("/updateStatusToRejectedById/{id}")
+    void updateStatusToRejectedById(@PathVariable Long id){
+        ExpenseReportService.updateStatusToRejectedById(id);
+    }
+
+
 }
