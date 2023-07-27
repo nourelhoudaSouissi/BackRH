@@ -31,6 +31,8 @@ public class ExpenseReport {
     private LocalDate createDate;
     private String comment;
 
+    @Lob
+    private String justificationDoc;
     @ManyToOne
     @JoinColumn(name = "employeeId")
     private Employee employee;

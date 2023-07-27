@@ -25,4 +25,5 @@ public class ExpenseReportResponse {
     private EmployeeResponse employee;
     private String employeeFirstName;
     private String employeeLastName;
+    private String justificationDoc;
 }

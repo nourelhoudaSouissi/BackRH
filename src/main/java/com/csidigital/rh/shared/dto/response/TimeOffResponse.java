@@ -29,7 +29,7 @@ public class TimeOffResponse {
 
     private String leaveTypeName;
 
-    private TimeOffType leaveType;
+    private TimeOffType timeOffType;
     //private Long employeeId;
     private String employeeFirstName;
     private String employeeLastName;
@@ -41,6 +41,9 @@ public class TimeOffResponse {
 
 
     private EmployeeResponse employee;
+    private LeaveTypeResponse leaveType;
+
+    private Integer leaveTypeAlertNumberDays;
     private Double remainingPaidLeave;  // New property for remainingPaidLeave
 
 }

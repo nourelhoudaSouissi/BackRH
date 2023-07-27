@@ -22,8 +22,7 @@ public class ExpenseReportRequest {
     private RequestStatus requestStatus;
     private LocalDate createDate;
     private String comment;
-
-
+    private String justificationDoc;
     private Long employeeNum;
     private String employeeFirstName;
     private String employeeLastName;

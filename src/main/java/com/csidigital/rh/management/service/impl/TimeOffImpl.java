@@ -8,9 +8,11 @@ import com.csidigital.rh.dao.repository.EmployeeRepository;
 import com.csidigital.rh.dao.repository.LeaveTypeRepository;
 import com.csidigital.rh.dao.repository.TimeOffRepository;
 import com.csidigital.rh.management.service.EmployeeService;
+import com.csidigital.rh.management.service.LeaveTypeService;
 import com.csidigital.rh.management.service.TimeOffService;
 import com.csidigital.rh.shared.dto.request.TimeOffRequest;
 import com.csidigital.rh.shared.dto.response.EmployeeResponse;
+import com.csidigital.rh.shared.dto.response.LeaveTypeResponse;
 import com.csidigital.rh.shared.dto.response.TimeOffResponse;
 import com.csidigital.rh.shared.enumeration.RequestStatus;
 import com.csidigital.rh.shared.exception.ResourceNotFoundException;
@@ -43,6 +45,8 @@ public class TimeOffImpl implements TimeOffService {
     private EmailImpl emailService;
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private LeaveTypeService leaveTypeService;
 
 
     @Override
@@ -86,8 +90,8 @@ public class TimeOffImpl implements TimeOffService {
         for (TimeOff timeOffGet: timeOff) {
             TimeOffResponse response = modelMapper.map(timeOffGet, TimeOffResponse.class);
             response.setLeaveTypeName(timeOffGet.getLeaveType().getName());
-            response.setLeaveType(timeOffGet.getLeaveType().getTimeOffType());
-
+            response.setTimeOffType(timeOffGet.getLeaveType().getTimeOffType());
+            response.setLeaveTypeAlertNumberDays(timeOffGet.getLeaveType().getAlertNumberDays());
             response.setEmployeeFirstName(timeOffGet.getEmployee().getFirstName());
             response.setEmployeeLastName(timeOffGet.getEmployee().getLastName());
 
@@ -107,6 +111,9 @@ public class TimeOffImpl implements TimeOffService {
 
        // Retrieve associated Employee and calculate remainingPaidLeave
        EmployeeResponse employeeResponse = employeeService.getEmployeeById(timeOff.getEmployee().getId());
+
+       // Retrieve associated Employee and calculate remainingPaidLeave
+       LeaveTypeResponse leaveTypeResponse = leaveTypeService.getLeaveTypeById(timeOff.getLeaveType().getId());
 
        // Set remainingPaidLeave in the TimeOffResponse
        timeOffResponse.setRemainingPaidLeave(employeeResponse.getRemainingPaidLeave());
